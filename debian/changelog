@@ -1,3 +1,9 @@
+sed (4.2.1-9pexip1) pexip; urgency=low
+
+  * Prepare Pexip packaging
+
+ -- John-Mark Bell <jmb@pexip.com>  Wed, 25 Dec 2013 04:40:20 +0000
+
 sed (4.2.1-9) unstable; urgency=low
 
   * doc/sed-in.texi: Fix double negation in comment, escape
