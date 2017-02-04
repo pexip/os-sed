@@ -1,10 +1,87 @@
-sed (4.2.2-4+deb8u1) stable; urgency=medium
+sed (4.4-1) unstable; urgency=high
+
+  * New upstream release.
+    - Fixes newline segfault in gnulib DFA.  closes: #853864.
+  * Drop cross-building patch (obsoleted by upstream).
+
+ -- Clint Adams <clint@debian.org>  Sat, 04 Feb 2017 10:16:08 -0500
+
+sed (4.3-3) unstable; urgency=medium
+
+  * Patch from Chris Lamb to use system help2man.  closes: #850556
+  * Build-depend on help2man.
+
+ -- Clint Adams <clint@debian.org>  Sat, 07 Jan 2017 13:16:33 -0500
+
+sed (4.3-2) unstable; urgency=medium
+
+  [ Helmut Grohne ]
+  * Fix FTCBFS: Skip help2man during cross builds.  closes: #850321.
+
+  [ Clint Adams ]
+  * Drop debian/source/local-options.
+  * Improve short description.
+  * Drop ancient Depends on install-info alternatives.
+
+ -- Clint Adams <clint@debian.org>  Sat, 07 Jan 2017 07:16:23 -0500
+
+sed (4.3-1) unstable; urgency=medium
+
+  * New upstream version 4.3
+    - Manual clarifies that ommands 'a', 'c', 'i' cannot be followed
+      by semicolons working as command separators.  closes: #620610.
+    - No longer breaks with --follow-symlinks on stdin.
+      closes: #713814.
+  * Update watch file.
+  * Convert build system to dh.
+
+ -- Clint Adams <clint@debian.org>  Wed, 04 Jan 2017 20:45:59 -0500
+
+sed (4.2.2-8) unstable; urgency=medium
+
+  * Upgrade watch file.
+  * Update URLs in control file.
+
+ -- Clint Adams <clint@debian.org>  Wed, 31 Aug 2016 20:48:58 -0400
+
+sed (4.2.2-7.1) unstable; urgency=medium
+
+  * Non-maintainer upload with permission from Clint Adams.
+  * Ensure stable ordering of md5sums control file to make
+    sed build reproducibly.
+
+ -- Niels Thykier <niels@thykier.net>  Fri, 11 Mar 2016 19:15:04 +0000
+
+sed (4.2.2-7) unstable; urgency=medium
+
+  * Try to make documentation involving TAB characters less
+    confusing.  closes: #671817.
+
+ -- Clint Adams <clint@debian.org>  Thu, 11 Feb 2016 19:20:22 -0500
+
+sed (4.2.2-6.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Add multiarch metadata (Closes: 693872)
+
+ -- Wookey <wookey@debian.org>  Thu, 09 Jul 2015 01:51:06 +0000
+
+sed (4.2.2-6) unstable; urgency=medium
 
   [ Jérémy Bobbio ]
+  * Fix comment typo in debian/rules
   * Ensure consistent permissions with different umasks.
-    closes: #774347, #835516.
+    closes: #774347.
 
- -- Clint Adams <clint@debian.org>  Fri, 09 Sep 2016 18:07:57 -0400
+ -- Clint Adams <clint@debian.org>  Mon, 25 May 2015 19:38:42 -0400
+
+sed (4.2.2-5) unstable; urgency=medium
+
+  [ Jérémy Bobbio ]
+  * Fix mtimes before building binary packages.  closes: #774347.
+  * Stop recording current time when using gzip.
+
+ -- Clint Adams <clint@debian.org>  Sun, 26 Apr 2015 11:18:04 -0400
 
 sed (4.2.2-4) unstable; urgency=medium
 
