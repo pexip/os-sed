@@ -3,8 +3,8 @@ Section: utils
 Priority: required
 Maintainer: Pexip AS <packaging@pexip.com>
 XSBC-Pexip-Original-Maintainer: Clint Adams <clint@debian.org>
-Standards-Version: 3.9.1
-Build-Depends: texinfo, gettext, libselinux-dev [!kfreebsd-amd64 !kfreebsd-i386 !hurd-i386]
+Standards-Version: 3.9.5
+Build-Depends: texinfo, gettext, libselinux-dev [linux-any], autotools-dev
 Vcs-Git: git://git.debian.org/users/clint/sed.git
 Vcs-Browser: http://git.debian.org/?p=users/clint/sed.git;a=summary
 Homepage: http://www.gnu.org/software/sed/
