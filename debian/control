@@ -8,7 +8,7 @@ Build-Depends: texinfo, gettext, libselinux-dev [linux-any], autotools-dev
 Vcs-Git: git://git.debian.org/users/clint/sed.git
 Vcs-Browser: http://git.debian.org/?p=users/clint/sed.git;a=summary
 Homepage: http://www.gnu.org/software/sed/
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ jessie
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ stretch
 
 Package: sed
 Architecture: any
