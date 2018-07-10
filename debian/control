@@ -3,19 +3,20 @@ Section: utils
 Priority: required
 Maintainer: Pexip AS <packaging@pexip.com>
 XSBC-Pexip-Original-Maintainer: Clint Adams <clint@debian.org>
-Standards-Version: 3.9.5
-Build-Depends: texinfo, gettext, libselinux-dev [linux-any], autotools-dev
-Vcs-Git: git://git.debian.org/users/clint/sed.git
-Vcs-Browser: http://git.debian.org/?p=users/clint/sed.git;a=summary
-Homepage: http://www.gnu.org/software/sed/
+Standards-Version: 3.9.8
+Build-Depends: texinfo, gettext, libselinux-dev [linux-any], autotools-dev, debhelper (>= 9), dh-autoreconf, help2man
+Vcs-Git: https://anonscm.debian.org/git/users/clint/sed.git
+Vcs-Browser: https://anonscm.debian.org/cgit/users/clint/sed.git/
+Homepage: https://www.gnu.org/software/sed/
 XS-Pexip-Upstream: http://ftp.debian.org/debian/ stretch
 
 Package: sed
 Architecture: any
+Multi-Arch: foreign
 Essential: yes
 Pre-Depends: ${shlibs:Pre-Depends}
-Depends: dpkg (>= 1.15.4) | install-info
-Description: The GNU sed stream editor
+Depends: ${misc:Depends}
+Description: GNU stream editor for filtering/transforming text
  sed reads the specified files or the standard input if no
  files are specified, makes editing changes according to a
  list of commands, and writes the results to the standard

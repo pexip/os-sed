@@ -1,3 +1,2 @@
-version=2
-
-ftp://ftp.gnu.org/gnu/sed/sed-(.*)\.tar\.gz
+version=4
+opts="pgpsigurlmangle=s%$%.sig%" ftp://ftp.gnu.org/gnu/sed/sed-(.*)\.tar\.[gx]z debian uupdate
