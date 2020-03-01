@@ -1,3 +1,29 @@
+sed (4.7-1) unstable; urgency=medium
+
+  * New upstream version.  closes: #917065.
+
+ -- Clint Adams <clint@debian.org>  Sat, 22 Dec 2018 09:24:04 -0500
+
+sed (4.5-2) unstable; urgency=medium
+
+  * Enable ACL support, thanks to Sven Joachim.  closes: #695157.
+  * Set packager to Debian.
+
+ -- Clint Adams <clint@debian.org>  Wed, 17 Oct 2018 18:39:10 -0400
+
+sed (4.5-1) unstable; urgency=medium
+
+  * New upstream version 4.5
+  * Add autopkgtest.
+
+ -- Clint Adams <clint@debian.org>  Wed, 04 Jul 2018 13:13:19 -0400
+
+sed (4.4-2) unstable; urgency=medium
+
+  * Drop direct use of autotools-dev and bump debhelper compat to 10.
+
+ -- Clint Adams <clint@debian.org>  Mon, 29 Jan 2018 21:49:51 -0500
+
 sed (4.4-1pexip1) pexip; urgency=medium
 
   * Migrate to Stretch

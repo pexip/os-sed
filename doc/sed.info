@@ -1,8 +1,8 @@
-This is sed.info-t, produced by makeinfo version 6.3 from sed.texi.
+This is sed.info, produced by makeinfo version 6.5 from sed.texi.
 
-This file documents version 4.4 of GNU 'sed', a stream editor.
+This file documents version 4.7 of GNU 'sed', a stream editor.
 
-   Copyright (C) 1998-2017 Free Software Foundation, Inc.
+   Copyright (C) 1998-2018 Free Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -17,14 +17,14 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: sed.info-t,  Node: Top,  Next: Introduction,  Up: (dir)
+File: sed.info,  Node: Top,  Next: Introduction,  Up: (dir)
 
 GNU 'sed'
 *********
 
-This file documents version 4.4 of GNU 'sed', a stream editor.
+This file documents version 4.7 of GNU 'sed', a stream editor.
 
-   Copyright (C) 1998-2017 Free Software Foundation, Inc.
+   Copyright (C) 1998-2018 Free Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -51,7 +51,7 @@ This file documents version 4.4 of GNU 'sed', a stream editor.
                                command-line options.
 
 
-File: sed.info-t,  Node: Introduction,  Next: Invoking sed,  Prev: Top,  Up: Top
+File: sed.info,  Node: Introduction,  Next: Invoking sed,  Prev: Top,  Up: Top
 
 1 Introduction
 **************
@@ -65,7 +65,7 @@ text in a pipeline which particularly distinguishes it from other types
 of editors.
 
 
-File: sed.info-t,  Node: Invoking sed,  Next: sed scripts,  Prev: Introduction,  Up: Top
+File: sed.info,  Node: Invoking sed,  Next: sed scripts,  Prev: Introduction,  Up: Top
 
 2 Running sed
 *************
@@ -80,7 +80,7 @@ individual 'sed' commands are discussed in the next chapter.
 * Exit status::
 
 
-File: sed.info-t,  Node: Overview,  Next: Command-Line Options,  Up: Invoking sed
+File: sed.info,  Node: Overview,  Next: Command-Line Options,  Up: Invoking sed
 
 2.1 Overview
 ============
@@ -107,7 +107,7 @@ in-place instead of printing to standard output.  See also the 'W' and
 's///w' commands for writing output to other files.  The following
 command modifies 'file.txt' and does not produce any output:
 
-     sed -i 's/hello/world' file.txt
+     sed -i 's/hello/world/' file.txt
 
    By default 'sed' prints all processed input (except input that has
 been modified/deleted by commands such as 'd').  Use '-n' to suppress
@@ -141,7 +141,7 @@ effective SCRIPT will be concatenation of all the individual SCRIPTs).
      sed --file=myscript.sed input.txt > output.txt
 
 
-File: sed.info-t,  Node: Command-Line Options,  Next: Exit status,  Prev: Overview,  Up: Invoking sed
+File: sed.info,  Node: Command-Line Options,  Next: Exit status,  Prev: Overview,  Up: Invoking sed
 
 2.2 Command-Line Options
 ========================
@@ -167,6 +167,22 @@ The full format for invoking 'sed' is:
      cycle through the script (*note How 'sed' works: Execution Cycle.).
      These options disable this automatic printing, and 'sed' only
      produces output when explicitly told to via the 'p' command.
+
+'--debug'
+     Print the input sed program in canonical form, and annotate program
+     execution.
+          $ echo 1 | sed '\%1%s21232'
+          3
+
+          $ echo 1 | sed --debug '\%1%s21232'
+          SED PROGRAM:
+            /1/ s/1/3/
+          INPUT:   'STDIN' line 1
+          PATTERN: 1
+          COMMAND: /1/ s/1/3/
+          PATTERN: 3
+          END-OF-CYCLE:
+          3
 
 '-e SCRIPT'
 '--expression=SCRIPT'
@@ -201,6 +217,23 @@ The full format for invoking 'sed' is:
 
      If no extension is supplied, the original file is overwritten
      without making a backup.
+
+     Because '-i' takes an optional argument, it should not be followed
+     by other short options:
+     'sed -Ei '...' FILE'
+          Same as '-E -i' with no backup suffix - 'FILE' will be edited
+          in-place without creating a backup.
+
+     'sed -iE '...' FILE'
+          This is equivalent to '--in-place=E', creating 'FILEE' as
+          backup of 'FILE'
+
+     Be cautious of using '-n' with '-i': the former disables automatic
+     printing of lines and the latter changes the file in-place without
+     a backup.  Used carelessly (and without an explicit 'p' command),
+     the output file will be empty:
+          # WRONG USAGE: 'FILE' will be truncated.
+          sed -ni 's/foo/bar/' FILE
 
 '-l N'
 '--line-length=N'
@@ -303,7 +336,7 @@ commands together with the '/dev/stdout' special file
 output is actually changed.
 
 
-File: sed.info-t,  Node: Exit status,  Prev: Command-Line Options,  Up: Invoking sed
+File: sed.info,  Node: Exit status,  Prev: Command-Line Options,  Up: Invoking sed
 
 2.3 Exit status
 ===============
@@ -334,7 +367,7 @@ with a custom exit code value (this is a GNU 'sed' extension):
      42
 
 
-File: sed.info-t,  Node: sed scripts,  Next: sed addresses,  Prev: Invoking sed,  Up: Top
+File: sed.info,  Node: sed scripts,  Next: sed addresses,  Prev: Invoking sed,  Up: Top
 
 3 'sed' scripts
 ***************
@@ -351,7 +384,7 @@ File: sed.info-t,  Node: sed scripts,  Next: sed addresses,  Prev: Invoking sed,
 * Multiple commands syntax:: Extension for easier scripting
 
 
-File: sed.info-t,  Node: sed script overview,  Next: sed commands list,  Up: sed scripts
+File: sed.info,  Node: sed script overview,  Next: sed commands list,  Up: sed scripts
 
 3.1 'sed' script overview
 =========================
@@ -413,7 +446,7 @@ Commands can also be preceded with optional non-significant whitespace
 characters.  *Note Multiple commands syntax::.
 
 
-File: sed.info-t,  Node: sed commands list,  Next: The "s" Command,  Prev: sed script overview,  Up: sed scripts
+File: sed.info,  Node: sed commands list,  Next: The "s" Command,  Prev: sed script overview,  Up: sed scripts
 
 3.2 'sed' commands summary
 ==========================
@@ -518,7 +551,7 @@ in parentheses.
      return an exit code to the caller.
 
 'r filename'
-     Reads text file a file.  Example:
+     Reads file FILENAME.
 
 'R filename'
      Queue a line of FILENAME to be read and inserted into the output
@@ -567,7 +600,7 @@ in parentheses.
 '#'
      A comment, until the next newline.
 
-'{ CMD ; CMD ... }'
+'{ CMD ; CMD ... }'
      Group several commands together.
 
 '='
@@ -577,7 +610,7 @@ in parentheses.
      Specify the location of LABEL for branch commands ('b', 't', 'T').
 
 
-File: sed.info-t,  Node: The "s" Command,  Next: Common Commands,  Prev: sed commands list,  Up: sed scripts
+File: sed.info,  Node: The "s" Command,  Next: Common Commands,  Prev: sed commands list,  Up: sed scripts
 
 3.3 The 's' Command
 ===================
@@ -712,7 +745,7 @@ FLAGS:
    (1) This is equivalent to 'p' unless the '-i' option is being used.
 
 
-File: sed.info-t,  Node: Common Commands,  Next: Other Commands,  Prev: The "s" Command,  Up: sed scripts
+File: sed.info,  Node: Common Commands,  Next: Other Commands,  Prev: The "s" Command,  Up: sed scripts
 
 3.4 Often-Used Commands
 =======================
@@ -746,7 +779,7 @@ commands.
           1
           2
 
-     This command only accepts a single address.  Note that the current
+     This command accepts only one address.  Note that the current
      pattern space is printed if auto-print is not disabled with the
      '-n' options.  The ability to return an exit code from the 'sed'
      script is a GNU 'sed' extension.
@@ -811,7 +844,7 @@ commands.
           X
 
 
-File: sed.info-t,  Node: Other Commands,  Next: Programming Commands,  Prev: Common Commands,  Up: sed scripts
+File: sed.info,  Node: Other Commands,  Next: Programming Commands,  Prev: Common Commands,  Up: sed scripts
 
 3.5 Less Frequently-Used Commands
 =================================
@@ -1029,7 +1062,7 @@ commands.
 
 'r FILENAME'
 
-     Reads text file a file.  Example:
+     Reads file FILENAME.  Example:
 
           $ seq 3 | sed '2r/etc/hostname'
           1
@@ -1105,7 +1138,7 @@ commands.
    (1) This is equivalent to 'p' unless the '-i' option is being used.
 
 
-File: sed.info-t,  Node: Programming Commands,  Next: Extended Commands,  Prev: Other Commands,  Up: sed scripts
+File: sed.info,  Node: Programming Commands,  Next: Extended Commands,  Prev: Other Commands,  Up: sed scripts
 
 3.6 Commands for 'sed' gurus
 ============================
@@ -1131,7 +1164,7 @@ can enable one to write quite convoluted scripts.
      The LABEL may be omitted, in which case the next cycle is started.
 
 
-File: sed.info-t,  Node: Extended Commands,  Next: Multiple commands syntax,  Prev: Programming Commands,  Up: sed scripts
+File: sed.info,  Node: Extended Commands,  Next: Multiple commands syntax,  Prev: Programming Commands,  Up: sed scripts
 
 3.7 Commands Specific to GNU 'sed'
 ==================================
@@ -1164,7 +1197,7 @@ required quite often, yet are unsupported by standard 'sed's.
      newline).
 
 'Q [EXIT-CODE]'
-     This command only accepts a single address.
+     This command accepts only one address.
 
      This command is the same as 'q', but will not print the contents of
      pattern space.  Like 'q', it provides the ability to return an exit
@@ -1223,7 +1256,7 @@ required quite often, yet are unsupported by standard 'sed's.
      the script in most multibyte locales (including UTF-8 locales).
 
 
-File: sed.info-t,  Node: Multiple commands syntax,  Prev: Extended Commands,  Up: sed scripts
+File: sed.info,  Node: Multiple commands syntax,  Prev: Extended Commands,  Up: sed scripts
 
 3.8 Multiple commands syntax
 ============================
@@ -1394,7 +1427,7 @@ newline:
           1.txt#foo
 
 
-File: sed.info-t,  Node: sed addresses,  Next: sed regular expressions,  Prev: sed scripts,  Up: Top
+File: sed.info,  Node: sed addresses,  Next: sed regular expressions,  Prev: sed scripts,  Up: Top
 
 4 Addresses: selecting lines
 ****************************
@@ -1407,7 +1440,7 @@ File: sed.info-t,  Node: sed addresses,  Next: sed regular expressions,  Prev: s
 * Range Addresses::                   selecting a range of lines
 
 
-File: sed.info-t,  Node: Addresses overview,  Next: Numeric Addresses,  Up: sed addresses
+File: sed.info,  Node: Addresses overview,  Next: Numeric Addresses,  Up: sed addresses
 
 4.1 Addresses overview
 ======================
@@ -1453,7 +1486,7 @@ excluding lines 4 to 17):
      sed '4,17!s/hello/world/' input.txt > output.txt
 
 
-File: sed.info-t,  Node: Numeric Addresses,  Next: Regexp Addresses,  Prev: Addresses overview,  Up: sed addresses
+File: sed.info,  Node: Numeric Addresses,  Next: Regexp Addresses,  Prev: Addresses overview,  Up: sed addresses
 
 4.2 Selecting lines by numbers
 ==============================
@@ -1492,7 +1525,7 @@ Addresses in a 'sed' script can be in any of the following forms:
           10
 
 
-File: sed.info-t,  Node: Regexp Addresses,  Next: Range Addresses,  Prev: Numeric Addresses,  Up: sed addresses
+File: sed.info,  Node: Regexp Addresses,  Next: Range Addresses,  Prev: Numeric Addresses,  Up: sed addresses
 
 4.3 selecting lines by text matching
 ====================================
@@ -1529,7 +1562,7 @@ be in *note Extended Regular Expression (ERE): ERE syntax. syntax.
      tedious escaping of every '/'.  If REGEXP itself includes any
      delimiter characters, each must be escaped by a backslash ('\').
 
-     The following two commands are equivalent.  They print lines which
+     The following commands are equivalent.  They print lines which
      start with '/home/alice/documents/':
 
           sed -n '/^\/home\/alice\/documents\//p'
@@ -1543,7 +1576,7 @@ be in *note Extended Regular Expression (ERE): ERE syntax. syntax.
 
      In many other programming languages, a lower case 'i' is used for
      case-insensitive regular expression matching.  However, in 'sed'
-     the 'i' is used for the insert command (TODO: add 'pxref').
+     the 'i' is used for the insert command (*note insert command::).
 
      Observe the difference between the following examples.
 
@@ -1575,6 +1608,20 @@ be in *note Extended Regular Expression (ERE): ERE syntax. syntax.
      beginning or the end of the buffer.  In addition, the period
      character does not match a new-line character in multi-line mode.
 
+   Regex addresses operate on the content of the current pattern space.
+If the pattern space is changed (for example with 's///' command) the
+regular expression matching will operate on the changed text.
+
+   In the following example, automatic printing is disabled with '-n'.
+The 's/2/X/' command changes lines containing '2' to 'X'.  The command
+'/[0-9]/p' matches lines with digits and prints them.  Because the
+second line is changed before the '/[0-9]/' regex, it will not match and
+will not be printed:
+
+     $ seq 3 | sed -n 's/2/X/ ; /[0-9]/p'
+     1
+     3
+
    ---------- Footnotes ----------
 
    (1) There are of course many other ways to do the same, e.g.
@@ -1582,7 +1629,7 @@ be in *note Extended Regular Expression (ERE): ERE syntax. syntax.
      awk -F: '$7 == "/bin/bash"' /etc/passwd
 
 
-File: sed.info-t,  Node: Range Addresses,  Prev: Regexp Addresses,  Up: sed addresses
+File: sed.info,  Node: Range Addresses,  Prev: Regexp Addresses,  Up: sed addresses
 
 4.4 Range Addresses
 ===================
@@ -1662,7 +1709,7 @@ GNU extensions:
      ADDR1 can be a line number or a regular expression.
 
 
-File: sed.info-t,  Node: sed regular expressions,  Next: advanced sed,  Prev: sed addresses,  Up: Top
+File: sed.info,  Node: sed regular expressions,  Next: advanced sed,  Prev: sed addresses,  Up: Top
 
 5 Regular Expressions: selecting text
 *************************************
@@ -1678,10 +1725,10 @@ File: sed.info-t,  Node: sed regular expressions,  Next: advanced sed,  Prev: se
 * regexp extensions::        Additional regular expression commands
 * Back-references and Subexpressions:: Back-references and Subexpressions
 * Escapes::                  Specifying special characters
-* Locale Considerations::
+* Locale Considerations::    Multibyte characters and locale considrations
 
 
-File: sed.info-t,  Node: Regular Expressions Overview,  Next: BRE vs ERE,  Up: sed regular expressions
+File: sed.info,  Node: Regular Expressions Overview,  Next: BRE vs ERE,  Up: sed regular expressions
 
 5.1 Overview of regular expression in 'sed'
 ===========================================
@@ -1722,40 +1769,42 @@ the letter 'd':
 characters in regular expressions.
 
 
-File: sed.info-t,  Node: BRE vs ERE,  Next: BRE syntax,  Prev: Regular Expressions Overview,  Up: sed regular expressions
+File: sed.info,  Node: BRE vs ERE,  Next: BRE syntax,  Prev: Regular Expressions Overview,  Up: sed regular expressions
 
 5.2 Basic (BRE) and extended (ERE) regular expression
 =====================================================
 
 Basic and extended regular expressions are two variations on the syntax
-of the specified pattern.  Basic Regular Expression (BRE) is the default
-in 'sed' (and similarly in 'grep').  Extended Regular Expression syntax
-(ERE) is activated by using the '-r' or '-E' options (and similarly,
-'grep -E').
+of the specified pattern.  Basic Regular Expression (BRE) syntax is the
+default in 'sed' (and similarly in 'grep').  Use the POSIX-specified
+'-E' option ('-r', '--regexp-extended') to enable Extended Regular
+Expression (ERE) syntax.
 
-   In GNU 'sed' the only difference between basic and extended regular
+   In GNU 'sed', the only difference between basic and extended regular
 expressions is in the behavior of a few special characters: '?', '+',
 parentheses, braces ('{}'), and '|'.
 
    With basic (BRE) syntax, these characters do not have special meaning
-unless prefixed backslash ('\'); While with extended (ERE) syntax it is
-reversed: these characters are special unless they are prefixed with
-backslash ('\').
+unless prefixed with a backslash ('\'); While with extended (ERE) syntax
+it is reversed: these characters are special unless they are prefixed
+with backslash ('\').
 
-Desired pattern          Basic (BRE) Syntax       Extended (ERE) Syntax
-                                                  
----------------------------------------------------------------------------
-literal '+' (plus             $ echo "a+b=c" | sed -n '/a+b/p'     $ echo "a+b=c" | sed -E -n '/a\+b/p'
-sign)                         a+b=c                    a+b=c
-                                                  
-One or more 'a'               $ echo "aab" | sed -n '/a\+b/p'     $ echo "aab" | sed -E -n '/a+b/p'
-characters followed by        aab                      aab
-'b' (plus sign as                                 
+Desired pattern      Basic (BRE) Syntax         Extended (ERE) Syntax
+                                                
+--------------------------------------------------------------------------
+literal '+' (plus         $ echo 'a+b=c' > foo       $ echo 'a+b=c' > foo
+sign)                     $ sed -n '/a+b/p' foo      $ sed -E -n '/a\+b/p' foo
+                          a+b=c                      a+b=c
+                                                
+One or more 'a'           $ echo aab > foo           $ echo aab > foo
+characters                $ sed -n '/a\+b/p' foo     $ sed -E -n '/a+b/p' foo
+followed by 'b'           aab                        aab
+(plus sign as                                   
 special
 meta-character)
 
 
-File: sed.info-t,  Node: BRE syntax,  Next: ERE syntax,  Prev: BRE vs ERE,  Up: sed regular expressions
+File: sed.info,  Node: BRE syntax,  Next: ERE syntax,  Prev: BRE vs ERE,  Up: sed regular expressions
 
 5.3 Overview of basic regular expression syntax
 ===============================================
@@ -1912,8 +1961,8 @@ Examples:
 '[a-zA-Z0-9]'
      In the C locale, this matches any ASCII letters or digits.
 
-'[^ 'tab']\+'
-     (Here 'tab' stands for a single tab character.)  This matches a
+'[^ '<TAB>']\+'
+     (Here '<TAB>' stands for a single tab character.)  This matches a
      string of one or more characters, none of which is a space or a
      tab.  Usually this means a word.
 
@@ -1930,7 +1979,7 @@ Examples:
      last of which is an 'A'.
 
 
-File: sed.info-t,  Node: ERE syntax,  Next: Character Classes and Bracket Expressions,  Prev: BRE syntax,  Up: sed regular expressions
+File: sed.info,  Node: ERE syntax,  Next: Character Classes and Bracket Expressions,  Prev: BRE syntax,  Up: sed regular expressions
 
 5.4 Overview of extended regular expression syntax
 ==================================================
@@ -1970,7 +2019,7 @@ Examples:
      'a' or 'b'.
 
 
-File: sed.info-t,  Node: Character Classes and Bracket Expressions,  Next: regexp extensions,  Prev: ERE syntax,  Up: sed regular expressions
+File: sed.info,  Node: Character Classes and Bracket Expressions,  Next: regexp extensions,  Prev: ERE syntax,  Up: sed regular expressions
 
 5.5 Character Classes and Bracket Expressions
 =============================================
@@ -2110,7 +2159,7 @@ Also, when not in 'POSIXLY_CORRECT' mode, special escapes like '\n' and
      represents the close character class symbol.
 
 
-File: sed.info-t,  Node: regexp extensions,  Next: Back-references and Subexpressions,  Prev: Character Classes and Bracket Expressions,  Up: sed regular expressions
+File: sed.info,  Node: regexp extensions,  Next: Back-references and Subexpressions,  Prev: Character Classes and Bracket Expressions,  Up: sed regular expressions
 
 5.6 regular expression extensions
 =================================
@@ -2148,7 +2197,7 @@ extended: ERE syntax. regular expressions (that is, with or without the
      the character to the left and the character to the right are either
      both "word" characters or both "non-word" characters.
 
-          $ echo "abc %-= def." | sed 's/\w/X/g'
+          $ echo "abc %-= def." | sed 's/\B/X/g'
           aXbXc X%X-X=X dXeXf.X
 
 '\s'
@@ -2161,7 +2210,7 @@ extended: ERE syntax. regular expressions (that is, with or without the
 '\S'
      Matches non-whitespace characters.
 
-          $ echo "abc %-= def." | sed 's/\w/X/g'
+          $ echo "abc %-= def." | sed 's/\S/X/g'
           XXX XXX XXXX
 
 '\<'
@@ -2197,7 +2246,7 @@ extended: ERE syntax. regular expressions (that is, with or without the
      '$' in multi-line mode.
 
 
-File: sed.info-t,  Node: Back-references and Subexpressions,  Next: Escapes,  Prev: regexp extensions,  Up: sed regular expressions
+File: sed.info,  Node: Back-references and Subexpressions,  Next: Escapes,  Prev: regexp extensions,  Up: sed regular expressions
 
 5.7 Back-references and Subexpressions
 ======================================
@@ -2257,7 +2306,7 @@ given with '-e' or from a file ('-f FILE'), back-references are local to
 each expression.
 
 
-File: sed.info-t,  Node: Escapes,  Next: Locale Considerations,  Prev: Back-references and Subexpressions,  Up: sed regular expressions
+File: sed.info,  Node: Escapes,  Next: Locale Considerations,  Prev: Back-references and Subexpressions,  Up: sed regular expressions
 
 5.8 Escape Sequences - specifying special characters
 ====================================================
@@ -2317,6 +2366,37 @@ represents:
    '\b' (backspace) was omitted because of the conflict with the
 existing "word boundary" meaning.
 
+5.8.1 Escaping Precedence
+-------------------------
+
+GNU 'sed' processes escape sequences _before_ passing the text onto the
+regular-expression matching of the 's///' command and Address matching.
+Thus the follwing two commands are equivalent ('0x5e' is the hexadecimal
+ASCII value of the character '^'):
+
+     $ echo 'a^c' | sed 's/^/b/'
+     ba^c
+
+     $ echo 'a^c' | sed 's/\x5e/b/'
+     ba^c
+
+   As are the following ('0x5b','0x5d' are the hexadecimal ASCII values
+of '[',']', respectively):
+
+     $ echo abc | sed 's/[a]/x/'
+     Xbc
+     $ echo abc | sed 's/\x5ba\x5d/x/'
+     Xbc
+
+   However it is recommended to avoid such special characters due to
+unexpected edge-cases.  For example, the following are not equivalent:
+
+     $ echo 'a^c' | sed 's/\^/b/'
+     abc
+
+     $ echo 'a^c' | sed 's/\\\x5e/b/'
+     a^c
+
    ---------- Footnotes ----------
 
    (1) All the escapes introduced here are GNU extensions, with the
@@ -2324,21 +2404,130 @@ exception of '\n'.  In basic regular expression mode, setting
 'POSIXLY_CORRECT' disables them inside bracket expressions.
 
 
-File: sed.info-t,  Node: Locale Considerations,  Prev: Escapes,  Up: sed regular expressions
+File: sed.info,  Node: Locale Considerations,  Prev: Escapes,  Up: sed regular expressions
 
-5.9 Locale Considerations
-=========================
+5.9 Multibyte characters and Locale Considerations
+==================================================
 
-TODO: fix following paragraphs (copied verbatim from 'bracket
-expression' section).
+GNU 'sed' processes valid multibyte characters in multibyte locales
+(e.g.  'UTF-8').  (1)
 
-   TODO: mention locale support is heavily dependent on the OS/libc, not
-on sed.
+The following example uses the Greek letter Capital Sigma (U+03A3,
+Unicode code point '0x03A3').  In a 'UTF-8' locale, 'sed' correctly
+processes the Sigma as one character despite it being 2 octets (bytes):
 
-   The current locale affects the characters matched by 'sed''s regular
-expressions.
+     $ locale | grep LANG
+     LANG=en_US.UTF-8
 
-   In other locales, the sorting sequence is not specified, and '[a-d]'
+     $ printf 'a\u03A3b'
+     aU+03A3b
+
+     $ printf 'a\u03A3b' | sed 's/./X/g'
+     XXX
+
+     $ printf 'a\u03A3b' | od -tx1 -An
+      61 ce a3 62
+
+To force 'sed' to process octets separately, use the 'C' locale (also
+known as the 'POSIX' locale):
+
+     $ printf 'a\u03A3b' | LC_ALL=C sed 's/./X/g'
+     XXXX
+
+5.9.1 Invalid multibyte characters
+----------------------------------
+
+'sed''s regular expressions _do not_ match invalid multibyte sequences
+in a multibyte locale.
+
+In the following examples, the ascii value '0xCE' is an incomplete
+multibyte character (shown here as U+FFFD). The regular expression '.'
+does not match it:
+
+     $ printf 'a\xCEb\n'
+     aU+FFFDe
+
+     $ printf 'a\xCEb\n' | sed 's/./X/g'
+     XU+FFFDX
+
+     $ printf 'a\xCEc\n' | sed 's/./X/g' | od -tx1c -An
+       58  ce  58  0a
+        X      X   \n
+
+Similarly, the 'catch-all' regular expression '.*' does not match the
+entire line:
+
+     $ printf 'a\xCEc\n' | sed 's/.*//' | od -tx1c -An
+       ce  63  0a
+            c  \n
+
+GNU 'sed' offers the special 'z' command to clear the current pattern
+space regardless of invalid multibyte characters (i.e.  it works like
+'s/.*//' but also removes invalid multibyte characters):
+
+     $ printf 'a\xCEc\n' | sed 'z' | od -tx1c -An
+        0a
+        \n
+
+Alternatively, force the 'C' locale to process each octet separately
+(every octet is a valid character in the 'C' locale):
+
+     $ printf 'a\xCEc\n' | LC_ALL=C sed 's/.*//' | od -tx1c -An
+       0a
+       \n
+
+   'sed''s inability to process invalid multibyte characters can be used
+to detect such invalid sequences in a file.  In the following examples,
+the '\xCE\xCE' is an invalid multibyte sequence, while '\xCE\A3' is a
+valid multibyte sequence (of the Greek Sigma character).
+
+The following 'sed' program removes all valid characters using 's/.//g'.
+Any content left in the pattern space (the invalid characters) are added
+to the hold space using the 'H' command.  On the last line ('$'), the
+hold space is retrieved ('x'), newlines are removed ('s/\n//g'), and any
+remaining octets are printed unambiguously ('l').  Thus, any invalid
+multibyte sequences are printed as octal values:
+
+     $ printf 'ab\nc\n\xCE\xCEde\n\xCE\xA3f\n' > invalid.txt
+
+     $ cat invalid.txt
+     ab
+     c
+     U+FFFDU+FFFDde
+     U+03A3f
+
+     $ sed -n 's/.//g ; H ; ${x;s/\n//g;l}' invalid.txt
+     \316\316$
+
+With a few more commands, 'sed' can print the exact line number
+corresponding to each invalid characters (line 3).  These characters can
+then be removed by forcing the 'C' locale and using octal escape
+sequences:
+
+     $ sed -n 's/.//g;=;l' invalid.txt | paste - -  | awk '$2!="$"'
+     3       \316\316$
+
+     $ LC_ALL=C sed '3s/\o316\o316//' invalid.txt > fixed.txt
+
+5.9.2 Upper/Lower case conversion
+---------------------------------
+
+GNU 'sed''s substitute command ('s') supports upper/lower case
+conversions using '\U','\L' codes.  These conversions support multibyte
+characters:
+
+     $ printf 'ABC\u03a3\n'
+     ABCU+03A3
+
+     $ printf 'ABC\u03a3\n' | sed 's/.*/\L&/'
+     abcU+03C3
+
+*Note The "s" Command::.
+
+5.9.3 Multibyte regexp character classes
+----------------------------------------
+
+In other locales, the sorting sequence is not specified, and '[a-d]'
 might be equivalent to '[abcd]' or to '[aBbCcDd]', or it might fail to
 match any character, or the set of characters that it matches might even
 be erratic.  To obtain the traditional interpretation of bracket
@@ -2360,8 +2549,14 @@ current locale.
      $ printf 'cliché\n' | LC_ALL=fr_FR.utf8 sed 's/[[=e=]]/X/g'
      clichX
 
+   ---------- Footnotes ----------
+
+   (1) Some regexp edge-cases depends on the operating system and libc
+implementation.  The examples shown are known to work as-expected on
+GNU/Linux systems using glibc.
+
 
-File: sed.info-t,  Node: advanced sed,  Next: Examples,  Prev: sed regular expressions,  Up: Top
+File: sed.info,  Node: advanced sed,  Next: Examples,  Prev: sed regular expressions,  Up: Top
 
 6 Advanced 'sed': cycles and buffers
 ************************************
@@ -2374,7 +2569,7 @@ File: sed.info-t,  Node: advanced sed,  Next: Examples,  Prev: sed regular expre
 * Branching and flow control::
 
 
-File: sed.info-t,  Node: Execution Cycle,  Next: Hold and Pattern Buffers,  Up: advanced sed
+File: sed.info,  Node: Execution Cycle,  Next: Hold and Pattern Buffers,  Up: advanced sed
 
 6.1 How 'sed' Works
 ===================
@@ -2408,7 +2603,7 @@ surprise" even though it does not make commands like 'sed -n p' exactly
 identical to 'cat'.
 
 
-File: sed.info-t,  Node: Hold and Pattern Buffers,  Next: Multiline techniques,  Prev: Execution Cycle,  Up: advanced sed
+File: sed.info,  Node: Hold and Pattern Buffers,  Next: Multiline techniques,  Prev: Execution Cycle,  Up: advanced sed
 
 6.2 Hold and Pattern Buffers
 ============================
@@ -2416,7 +2611,7 @@ File: sed.info-t,  Node: Hold and Pattern Buffers,  Next: Multiline techniques, 
 TODO
 
 
-File: sed.info-t,  Node: Multiline techniques,  Next: Branching and flow control,  Prev: Hold and Pattern Buffers,  Up: advanced sed
+File: sed.info,  Node: Multiline techniques,  Next: Branching and flow control,  Prev: Hold and Pattern Buffers,  Up: advanced sed
 
 6.3 Multiline techniques - using D,G,H,N,P to process multiple lines
 ====================================================================
@@ -2522,7 +2717,7 @@ commands:
 lines:: and *note Line length adjustment::.
 
 
-File: sed.info-t,  Node: Branching and flow control,  Prev: Multiline techniques,  Up: advanced sed
+File: sed.info,  Node: Branching and flow control,  Prev: Multiline techniques,  Up: advanced sed
 
 6.4 Branching and Flow Control
 ==============================
@@ -2730,7 +2925,7 @@ more about 'N', 'P' and 'D' commands *note Multiline techniques::).
    For more line-joining examples *note Joining lines::.
 
 
-File: sed.info-t,  Node: Examples,  Next: Limitations,  Prev: advanced sed,  Up: Top
+File: sed.info,  Node: Examples,  Next: Limitations,  Prev: advanced sed,  Up: Top
 
 7 Some Sample Scripts
 *********************
@@ -2767,7 +2962,7 @@ Emulating standard utilities:
 * cat -s::                          Squeezing blank lines
 
 
-File: sed.info-t,  Node: Joining lines,  Next: Centering lines,  Up: Examples
+File: sed.info,  Node: Joining lines,  Next: Centering lines,  Up: Examples
 
 7.1 Joining lines
 =================
@@ -2836,7 +3031,7 @@ techniques:: and *note Branching and flow control::.
      #   sed -e :a -e '$!N;s/\n  */ /;ta' -e 'P;D'
 
 
-File: sed.info-t,  Node: Centering lines,  Next: Increment a number,  Prev: Joining lines,  Up: Examples
+File: sed.info,  Node: Centering lines,  Next: Increment a number,  Prev: Joining lines,  Up: Examples
 
 7.2 Centering Lines
 ===================
@@ -2859,7 +3054,7 @@ regular expressions to be matched--this is a common technique.
      }
 
      # delete leading and trailing spaces
-     y/tab/ /
+     y/<TAB>/ /
      s/^ *//
      s/ *$//
 
@@ -2873,7 +3068,7 @@ regular expressions to be matched--this is a common technique.
      s/^\(.*\)\n\(.*\)\2/\2\1/
 
 
-File: sed.info-t,  Node: Increment a number,  Next: Rename files to lower case,  Prev: Centering lines,  Up: Examples
+File: sed.info,  Node: Increment a number,  Next: Rename files to lower case,  Prev: Centering lines,  Up: Examples
 
 7.3 Increment a Number
 ======================
@@ -2926,7 +3121,7 @@ zeros.
 calculator!  It is distributed together with sed.
 
 
-File: sed.info-t,  Node: Rename files to lower case,  Next: Print bash environment,  Prev: Increment a number,  Up: Examples
+File: sed.info,  Node: Rename files to lower case,  Next: Print bash environment,  Prev: Increment a number,  Up: Examples
 
 7.4 Rename Files to Lower Case
 ==============================
@@ -3038,7 +3233,7 @@ using shell variables and proper quoting.
      ' | $apply_cmd
 
 
-File: sed.info-t,  Node: Print bash environment,  Next: Reverse chars of lines,  Prev: Rename files to lower case,  Up: Examples
+File: sed.info,  Node: Print bash environment,  Next: Reverse chars of lines,  Prev: Rename files to lower case,  Up: Examples
 
 7.5 Print 'bash' Environment
 ============================
@@ -3072,7 +3267,7 @@ of the 'set' Bourne-shell command.
      '
 
 
-File: sed.info-t,  Node: Reverse chars of lines,  Next: Text search across multiple lines,  Prev: Print bash environment,  Up: Examples
+File: sed.info,  Node: Reverse chars of lines,  Next: Text search across multiple lines,  Prev: Print bash environment,  Up: Examples
 
 7.6 Reverse Characters of Lines
 ===============================
@@ -3118,7 +3313,7 @@ example
        ~/sedscripts/reverseline.sed
 
 
-File: sed.info-t,  Node: Text search across multiple lines,  Next: Line length adjustment,  Prev: Reverse chars of lines,  Up: Examples
+File: sed.info,  Node: Text search across multiple lines,  Next: Line length adjustment,  Prev: Reverse chars of lines,  Up: Examples
 
 7.7 Text search across multiple lines
 =====================================
@@ -3204,7 +3399,7 @@ and the regular expression works on it):
 <https://gnu.org/s/coreutils/manual/html_node/Squeezing-and-deleting.html>.
 
 
-File: sed.info-t,  Node: Line length adjustment,  Next: tac,  Prev: Text search across multiple lines,  Up: Examples
+File: sed.info,  Node: Line length adjustment,  Next: tac,  Prev: Text search across multiple lines,  Up: Examples
 
 7.8 Line length adjustment
 ==========================
@@ -3213,7 +3408,7 @@ This section uses 'N' and 'D' commands to search for consecutive words
 spanning multiple lines, and the 'b' command for branching.  *Note
 Multiline techniques:: and *note Branching and flow control::.
 
-   These (somewhat contrived) examples deal with formatting and wrapping
+   This (somewhat contrived) example deal with formatting and wrapping
 lines of text of the following input file:
 
      $ cat two-cities-mix.txt
@@ -3226,50 +3421,50 @@ lines of text of the following input file:
      the age
      of foolishness,
 
-   The following command will wrap lines at 40 characters:
-     $ sed -E ':x {N ; s/\n/ /g ; s/(.{40,40})/\1\n/ ; /\n/!bx ; P ; D}' \
-           two-cities-mix.txt
+The following sed program wraps lines at 40 characters:
+     $ cat wrap40.sed
+     # outer loop
+     :x
+
+     # Appead a newline followed by the next input line to the pattern buffer
+     N
+
+     # Remove all newlines from the pattern buffer
+     s/\n/ /g
+
+
+     # Inner loop
+     :y
+
+     # Add a newline after the first 40 characters
+     s/(.{40,40})/\1\n/
+
+     # If there is a newline in the pattern buffer
+     # (i.e. the previous substitution added a newline)
+     /\n/ {
+         # There are newlines in the pattern buffer -
+         # print the content until the first newline.
+         P
+
+        # Remove the printed characters and the first newline
+        s/.*\n//
+
+        # branch to label 'y' - repeat inner loop
+        by
+      }
+
+     # No newlines in the pattern buffer - Branch to label 'x' (outer loop)
+     # and read the next input line
+     bx
+
+The wrapped output:
+     $ sed -E -f wrap40.sed two-cities-mix.txt
      It was the best of times, it was the wor
      st of times, it was the age of wisdom, i
      t was the age of foolishness,
 
-   The following command will split lines by comma character:
-     $ sed -E ':x {N ; s/\n/ /g ; s/,/,\n/ ; /\n/!bx ; s/^ *// ; P ; D}' \
-           two-cities-mix.txt
-     It was the best of times,
-     it was the worst of times,
-     it was the age of wisdom,
-     it was the age of foolishness,
-
-   Both examples use similar construct:
-
-   * The ':x' is a label.  It will be used later by the 'b' command to
-     jump to the beginning of the 'sed' program without starting a new
-     cycle.
-
-   * The 'N' command reads the next line from the input file, and
-     appends it to the existing content of the pattern space (with a
-     newline preceding it).
-
-   * The first 's/\n/ /g' command replaces all newlines with spaces,
-     discarding the line structure of the input file.
-
-   * The second 's///' command adds newlines based on the desired
-     pattern (after 40 characters in the first example, after comma
-     character in the second example).
-
-   * The '/\n/!bx' command searches for a newline in the pattern space
-     ('/n/'), and if it is _not_ found ('!'), branches (=jumps) to the
-     previously defined label 'x'.  This will cause 'sed' to read the
-     next line without processing any further commands in this cycle.
-
-   * If a newline is found in the pattern space, 'P' is used to print up
-     to the newline (that is - the newly structured line) then 'D'
-     deletes the pattern space up to the newline, and starts a new
-     cycle.
-
 
-File: sed.info-t,  Node: tac,  Next: cat -n,  Prev: Line length adjustment,  Up: Examples
+File: sed.info,  Node: tac,  Next: cat -n,  Prev: Line length adjustment,  Up: Examples
 
 7.9 Reverse Lines of Files
 ==========================
@@ -3296,7 +3491,7 @@ easily overflow internal buffers.
      h
 
 
-File: sed.info-t,  Node: cat -n,  Next: cat -b,  Prev: tac,  Up: Examples
+File: sed.info,  Node: cat -n,  Next: cat -b,  Prev: tac,  Up: Examples
 
 7.10 Numbering Lines
 ====================
@@ -3365,7 +3560,7 @@ hold space, to be used in the next iteration.
      h
 
 
-File: sed.info-t,  Node: cat -b,  Next: wc -c,  Prev: cat -n,  Up: Examples
+File: sed.info,  Node: cat -b,  Next: wc -c,  Prev: cat -n,  Up: Examples
 
 7.11 Numbering Non-blank Lines
 ==============================
@@ -3405,7 +3600,7 @@ properly...
      h
 
 
-File: sed.info-t,  Node: wc -c,  Next: wc -w,  Prev: cat -b,  Up: Examples
+File: sed.info,  Node: wc -c,  Next: wc -w,  Prev: cat -b,  Up: Examples
 
 7.12 Counting Characters
 ========================
@@ -3478,7 +3673,7 @@ letters remain.
    (1) Some implementations have a limit of 199 commands per script
 
 
-File: sed.info-t,  Node: wc -w,  Next: wc -l,  Prev: wc -c,  Up: Examples
+File: sed.info,  Node: wc -w,  Next: wc -l,  Prev: wc -c,  Up: Examples
 
 7.13 Counting Words
 ===================
@@ -3498,7 +3693,7 @@ commenting 'sed' scripts.
      #!/usr/bin/sed -nf
 
      # Convert words to a's
-     s/[ tab][ tab]*/ /g
+     s/[ <TAB>][ <TAB>]*/ /g
      s/^/ /
      s/ [^ ][^ ]*/a /g
      s/ //g
@@ -3535,7 +3730,7 @@ commenting 'sed' scripts.
      p
 
 
-File: sed.info-t,  Node: wc -l,  Next: head,  Prev: wc -w,  Up: Examples
+File: sed.info,  Node: wc -l,  Next: head,  Prev: wc -w,  Up: Examples
 
 7.14 Counting Lines
 ===================
@@ -3547,7 +3742,7 @@ functionality for free!!!  Look:
      $=
 
 
-File: sed.info-t,  Node: head,  Next: tail,  Prev: wc -l,  Up: Examples
+File: sed.info,  Node: head,  Next: tail,  Prev: wc -l,  Up: Examples
 
 7.15 Printing the First Lines
 =============================
@@ -3560,7 +3755,7 @@ before the 'q' command.
      10q
 
 
-File: sed.info-t,  Node: tail,  Next: uniq,  Prev: head,  Up: Examples
+File: sed.info,  Node: tail,  Next: uniq,  Prev: head,  Up: Examples
 
 7.16 Printing the Last Lines
 ============================
@@ -3611,7 +3806,7 @@ on the last line of input, appending the next input line to pattern
 space, and removing the first line.
 
 
-File: sed.info-t,  Node: uniq,  Next: uniq -d,  Prev: tail,  Up: Examples
+File: sed.info,  Node: uniq,  Next: uniq -d,  Prev: tail,  Up: Examples
 
 7.17 Make Duplicate Lines Unique
 ================================
@@ -3645,7 +3840,7 @@ probably the most difficult to master.
 technique is often used in advanced 'sed' scripts.
 
 
-File: sed.info-t,  Node: uniq -d,  Next: uniq -u,  Prev: uniq,  Up: Examples
+File: sed.info,  Node: uniq -d,  Next: uniq -u,  Prev: uniq,  Up: Examples
 
 7.18 Print Duplicated Lines of Input
 ====================================
@@ -3679,7 +3874,7 @@ This script prints only duplicated lines, like 'uniq -d'.
      D
 
 
-File: sed.info-t,  Node: uniq -u,  Next: cat -s,  Prev: uniq -d,  Up: Examples
+File: sed.info,  Node: uniq -u,  Next: cat -s,  Prev: uniq -d,  Up: Examples
 
 7.19 Remove All Duplicated Lines
 ================================
@@ -3714,7 +3909,7 @@ This script prints only unique lines, like 'uniq -u'.
      D
 
 
-File: sed.info-t,  Node: cat -s,  Prev: uniq -u,  Up: Examples
+File: sed.info,  Node: cat -s,  Prev: uniq -u,  Up: Examples
 
 7.20 Squeezing Blank Lines
 ==========================
@@ -3795,7 +3990,7 @@ line.
      bx
 
 
-File: sed.info-t,  Node: Limitations,  Next: Other Resources,  Prev: Examples,  Up: Top
+File: sed.info,  Node: Limitations,  Next: Other Resources,  Prev: Examples,  Up: Top
 
 8 GNU 'sed''s Limitations and Non-limitations
 *********************************************
@@ -3813,7 +4008,7 @@ repetition.  This means that the available stack space may limit the
 size of the buffer that can be processed by certain patterns.
 
 
-File: sed.info-t,  Node: Other Resources,  Next: Reporting Bugs,  Prev: Limitations,  Up: Top
+File: sed.info,  Node: Other Resources,  Next: Reporting Bugs,  Prev: Limitations,  Up: Top
 
 9 Other Resources for Learning About 'sed'
 ******************************************
@@ -3840,7 +4035,7 @@ developers.
      GNU 'sed' mailing list).
 
 
-File: sed.info-t,  Node: Reporting Bugs,  Next: GNU Free Documentation License,  Prev: Other Resources,  Up: Top
+File: sed.info,  Node: Reporting Bugs,  Next: GNU Free Documentation License,  Prev: Other Resources,  Up: Top
 
 10 Reporting Bugs
 *****************
@@ -4000,7 +4195,7 @@ Regex syntax clashes (problems with backslashes)
    (1) which is the actual "bug" that prompted the change in behavior
 
 
-File: sed.info-t,  Node: GNU Free Documentation License,  Next: Concept Index,  Prev: Reporting Bugs,  Up: Top
+File: sed.info,  Node: GNU Free Documentation License,  Next: Concept Index,  Prev: Reporting Bugs,  Up: Top
 
 Appendix A GNU Free Documentation License
 *****************************************
@@ -4008,7 +4203,7 @@ Appendix A GNU Free Documentation License
                      Version 1.3, 3 November 2008
 
      Copyright (C) 2000, 2001, 2002, 2007, 2008 Free Software Foundation, Inc.
-     <http://fsf.org/>
+     <https://fsf.org/>
 
      Everyone is permitted to copy and distribute verbatim copies
      of this license document, but changing it is not allowed.
@@ -4405,7 +4600,7 @@ Appendix A GNU Free Documentation License
      the GNU Free Documentation License from time to time.  Such new
      versions will be similar in spirit to the present version, but may
      differ in detail to address new problems or concerns.  See
-     <http://www.gnu.org/copyleft/>.
+     <https://www.gnu.org/copyleft/>.
 
      Each version of the License is given a distinguishing version
      number.  If the Document specifies that a particular numbered
@@ -4482,7 +4677,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: sed.info-t,  Node: Concept Index,  Next: Command and Option Index,  Prev: GNU Free Documentation License,  Up: Top
+File: sed.info,  Node: Concept Index,  Next: Command and Option Index,  Prev: GNU Free Documentation License,  Up: Top
 
 Concept Index
 *************
@@ -4591,11 +4786,11 @@ exception of the 'sed' commands and command-line options.
 * exit status:                           Exit status.         (line   6)
 * exit status, example:                  Exit status.         (line  25)
 * Extended regular expressions, choosing: Command-Line Options.
-                                                              (line 102)
+                                                              (line 135)
 * Extended regular expressions, syntax:  ERE syntax.          (line   6)
 * File name, printing:                   Extended Commands.   (line  30)
 * Files to be processed as input:        Command-Line Options.
-                                                              (line 148)
+                                                              (line 181)
 * Flow of control in scripts:            Programming Commands.
                                                               (line  11)
 * Global substitution:                   The "s" Command.     (line  74)
@@ -4604,7 +4799,7 @@ exception of the 'sed' commands and command-line options.
 * GNU extensions, /dev/stdin file:       Other Commands.      (line 227)
 * GNU extensions, /dev/stdin file <1>:   Extended Commands.   (line  53)
 * GNU extensions, /dev/stdout file:      Command-Line Options.
-                                                              (line 156)
+                                                              (line 189)
 * GNU extensions, /dev/stdout file <1>:  The "s" Command.     (line 101)
 * GNU extensions, /dev/stdout file <2>:  Other Commands.      (line 240)
 * GNU extensions, 0 address:             Range Addresses.     (line  31)
@@ -4617,8 +4812,10 @@ exception of the 'sed' commands and command-line options.
                                                               (line  29)
 * GNU extensions, checking for their presence: Extended Commands.
                                                               (line  69)
+* GNU extensions, debug:                 Command-Line Options.
+                                                              (line  29)
 * GNU extensions, disabling:             Command-Line Options.
-                                                              (line  69)
+                                                              (line 102)
 * GNU extensions, emptying pattern space: Extended Commands.  (line  85)
 * GNU extensions, emptying pattern space <1>: Reporting Bugs. (line 143)
 * GNU extensions, evaluating Bourne-shell commands: The "s" Command.
@@ -4626,12 +4823,12 @@ exception of the 'sed' commands and command-line options.
 * GNU extensions, evaluating Bourne-shell commands <1>: Extended Commands.
                                                               (line  12)
 * GNU extensions, extended regular expressions: Command-Line Options.
-                                                              (line 102)
+                                                              (line 135)
 * GNU extensions, g and NUMBER modifier: The "s" Command.     (line  80)
 * GNU extensions, I modifier:            The "s" Command.     (line 117)
 * GNU extensions, I modifier <1>:        Regexp Addresses.    (line  47)
 * GNU extensions, in-place editing:      Command-Line Options.
-                                                              (line  40)
+                                                              (line  56)
 * GNU extensions, in-place editing <1>:  Reporting Bugs.      (line  95)
 * GNU extensions, M modifier:            The "s" Command.     (line 122)
 * GNU extensions, M modifier <1>:        Regexp Addresses.    (line  75)
@@ -4690,9 +4887,9 @@ exception of the 'sed' commands and command-line options.
 * i, and semicolons:                     sed script overview. (line  56)
 * In-place editing:                      Reporting Bugs.      (line  95)
 * In-place editing, activating:          Command-Line Options.
-                                                              (line  40)
+                                                              (line  56)
 * In-place editing, Perl-style backup file names: Command-Line Options.
-                                                              (line  51)
+                                                              (line  67)
 * infinite loop, branching:              Branching and flow control.
                                                               (line  95)
 * Inserting text before a line:          Other Commands.      (line 104)
@@ -4706,7 +4903,7 @@ exception of the 'sed' commands and command-line options.
                                                               (line  14)
 * Last line, selecting:                  Numeric Addresses.   (line  13)
 * Line length, setting:                  Command-Line Options.
-                                                              (line  64)
+                                                              (line  97)
 * Line length, setting <1>:              Other Commands.      (line 207)
 * Line number, printing:                 Other Commands.      (line 194)
 * Line selection:                        Numeric Addresses.   (line   6)
@@ -4756,7 +4953,7 @@ exception of the 'sed' commands and command-line options.
 * POSIXLY_CORRECT behavior, bracket expressions: Character Classes and Bracket Expressions.
                                                               (line 112)
 * POSIXLY_CORRECT behavior, enabling:    Command-Line Options.
-                                                              (line  72)
+                                                              (line 105)
 * POSIXLY_CORRECT behavior, escapes:     Escapes.             (line  11)
 * POSIXLY_CORRECT behavior, N command:   Reporting Bugs.      (line  56)
 * Print first line from pattern space:   Other Commands.      (line 269)
@@ -4783,6 +4980,8 @@ exception of the 'sed' commands and command-line options.
 * Read next input line:                  Common Commands.     (line  61)
 * Read text from a file:                 Other Commands.      (line 219)
 * Read text from a file <1>:             Extended Commands.   (line  53)
+* regex addresses and input lines:       Regexp Addresses.    (line  84)
+* regex addresses and pattern space:     Regexp Addresses.    (line  84)
 * regular expression addresses:          Addresses overview.  (line  18)
 * regular expression, example:           sed script overview. (line  28)
 * Replace hold space with copy of pattern space: Other Commands.
@@ -4798,13 +4997,13 @@ exception of the 'sed' commands and command-line options.
 * restarting a cycle:                    Branching and flow control.
                                                               (line  75)
 * Sandbox mode:                          Command-Line Options.
-                                                              (line 124)
+                                                              (line 157)
 * script parameter:                      Overview.            (line  43)
 * Script structure:                      sed script overview. (line   6)
 * Script, from a file:                   Command-Line Options.
-                                                              (line  35)
+                                                              (line  51)
 * Script, from command line:             Command-Line Options.
-                                                              (line  30)
+                                                              (line  46)
 * sed commands syntax:                   sed script overview. (line  13)
 * sed commands, multiple:                sed script overview. (line  37)
 * sed script structure:                  sed script overview. (line   6)
@@ -4819,7 +5018,7 @@ exception of the 'sed' commands and command-line options.
 * Special addressing forms:              Range Addresses.     (line  31)
 * standard input:                        Overview.            (line  15)
 * Standard input, processing as input:   Command-Line Options.
-                                                              (line 150)
+                                                              (line 183)
 * standard output:                       Overview.            (line  23)
 * stdin:                                 Overview.            (line  15)
 * stdout:                                Overview.            (line  23)
@@ -4845,7 +5044,7 @@ exception of the 'sed' commands and command-line options.
                                                               (line 101)
 * Transliteration:                       Other Commands.      (line  11)
 * Unbuffered I/O, choosing:              Command-Line Options.
-                                                              (line 131)
+                                                              (line 164)
 * upper-case letters:                    Character Classes and Bracket Expressions.
                                                               (line  84)
 * Usage summary, printing:               Command-Line Options.
@@ -4855,7 +5054,7 @@ exception of the 'sed' commands and command-line options.
 * whitespace characters:                 Character Classes and Bracket Expressions.
                                                               (line  80)
 * Working on separate files:             Command-Line Options.
-                                                              (line 115)
+                                                              (line 148)
 * Write first line to a file:            Extended Commands.   (line  80)
 * Write to a file:                       Other Commands.      (line 240)
 * xdigit class:                          Character Classes and Bracket Expressions.
@@ -4863,7 +5062,7 @@ exception of the 'sed' commands and command-line options.
 * Zero, as range start address:          Range Addresses.     (line  31)
 
 
-File: sed.info-t,  Node: Command and Option Index,  Prev: Concept Index,  Up: Top
+File: sed.info,  Node: Command and Option Index,  Prev: Concept Index,  Up: Top
 
 Command and Option Index
 ************************
@@ -4876,62 +5075,64 @@ options.
 
 * # (comments):                          Common Commands.     (line  12)
 * --binary:                              Command-Line Options.
-                                                              (line  81)
+                                                              (line 114)
+* --debug:                               Command-Line Options.
+                                                              (line  29)
 * --expression:                          Command-Line Options.
-                                                              (line  30)
+                                                              (line  46)
 * --file:                                Command-Line Options.
-                                                              (line  35)
+                                                              (line  51)
 * --follow-symlinks:                     Command-Line Options.
-                                                              (line  92)
+                                                              (line 125)
 * --help:                                Command-Line Options.
                                                               (line  17)
 * --in-place:                            Command-Line Options.
-                                                              (line  40)
+                                                              (line  56)
 * --line-length:                         Command-Line Options.
-                                                              (line  64)
+                                                              (line  97)
 * --null-data:                           Command-Line Options.
-                                                              (line 139)
+                                                              (line 172)
 * --posix:                               Command-Line Options.
-                                                              (line  69)
+                                                              (line 102)
 * --quiet:                               Command-Line Options.
                                                               (line  23)
 * --regexp-extended:                     Command-Line Options.
-                                                              (line 102)
+                                                              (line 135)
 * --sandbox:                             Command-Line Options.
-                                                              (line 124)
+                                                              (line 157)
 * --separate:                            Command-Line Options.
-                                                              (line 115)
+                                                              (line 148)
 * --silent:                              Command-Line Options.
                                                               (line  23)
 * --unbuffered:                          Command-Line Options.
-                                                              (line 131)
+                                                              (line 164)
 * --version:                             Command-Line Options.
                                                               (line  13)
 * --zero-terminated:                     Command-Line Options.
-                                                              (line 139)
+                                                              (line 172)
 * -b:                                    Command-Line Options.
-                                                              (line  81)
+                                                              (line 114)
 * -e:                                    Command-Line Options.
-                                                              (line  30)
+                                                              (line  46)
 * -E:                                    Command-Line Options.
-                                                              (line 102)
+                                                              (line 135)
 * -f:                                    Command-Line Options.
-                                                              (line  35)
+                                                              (line  51)
 * -i:                                    Command-Line Options.
-                                                              (line  40)
+                                                              (line  56)
 * -l:                                    Command-Line Options.
-                                                              (line  64)
+                                                              (line  97)
 * -n:                                    Command-Line Options.
                                                               (line  23)
 * -n, forcing from within a script:      Common Commands.     (line  20)
 * -r:                                    Command-Line Options.
-                                                              (line 102)
+                                                              (line 135)
 * -s:                                    Command-Line Options.
-                                                              (line 115)
+                                                              (line 148)
 * -u:                                    Command-Line Options.
-                                                              (line 131)
+                                                              (line 164)
 * -z:                                    Command-Line Options.
-                                                              (line 139)
+                                                              (line 172)
 * : (label) command:                     Programming Commands.
                                                               (line  14)
 * = (print line number) command:         Other Commands.      (line 194)
@@ -4996,79 +5197,81 @@ options.
 
 
 Tag Table:
-Node: Top728
-Node: Introduction2176
-Node: Invoking sed2732
-Node: Overview3047
-Node: Command-Line Options5306
-Ref: Command-Line Options-Footnote-111851
-Ref: Command-Line Options-Footnote-212043
-Node: Exit status12142
-Node: sed scripts13046
-Node: sed script overview13621
-Node: sed commands list16144
-Node: The "s" Command20949
-Ref: The "s" Command-Footnote-126413
-Node: Common Commands26485
-Node: Other Commands29517
-Ref: Other Commands-Footnote-138536
-Node: Programming Commands38608
-Node: Extended Commands39522
-Node: Multiple commands syntax43421
-Node: sed addresses47740
-Node: Addresses overview48171
-Node: Numeric Addresses49949
-Node: Regexp Addresses51302
-Ref: Regexp Addresses-Footnote-154689
-Node: Range Addresses54829
-Node: sed regular expressions57311
-Node: Regular Expressions Overview58113
-Node: BRE vs ERE59622
-Node: BRE syntax61216
-Node: ERE syntax67603
-Node: Character Classes and Bracket Expressions69077
-Node: regexp extensions73917
-Node: Back-references and Subexpressions76307
-Node: Escapes78713
-Ref: Escapes-Footnote-180911
-Node: Locale Considerations81102
-Node: advanced sed82373
-Node: Execution Cycle82734
-Ref: Execution Cycle-Footnote-183931
-Node: Hold and Pattern Buffers84232
-Node: Multiline techniques84422
-Node: Branching and flow control87638
-Node: Examples95689
-Node: Joining lines96891
-Node: Centering lines98680
-Node: Increment a number99599
-Ref: Increment a number-Footnote-1101078
-Node: Rename files to lower case101198
-Node: Print bash environment103973
-Node: Reverse chars of lines104730
-Ref: Reverse chars of lines-Footnote-1105763
-Node: Text search across multiple lines105980
-Node: Line length adjustment109207
-Node: tac111633
-Node: cat -n112402
-Node: cat -b114226
-Node: wc -c114977
-Ref: wc -c-Footnote-1116889
-Node: wc -w116958
-Node: wc -l118424
-Node: head118671
-Node: tail119004
-Node: uniq120687
-Node: uniq -d121476
-Node: uniq -u122189
-Node: cat -s122900
-Node: Limitations124749
-Node: Other Resources125592
-Node: Reporting Bugs126495
-Ref: N_command_last_line127660
-Ref: Reporting Bugs-Footnote-1133805
-Node: GNU Free Documentation License133876
-Node: Concept Index159031
-Node: Command and Option Index186029
+Node: Top726
+Node: Introduction2172
+Node: Invoking sed2726
+Node: Overview3039
+Node: Command-Line Options5297
+Ref: Command-Line Options-Footnote-112932
+Ref: Command-Line Options-Footnote-213124
+Node: Exit status13223
+Node: sed scripts14125
+Node: sed script overview14698
+Node: sed commands list17219
+Node: The "s" Command22008
+Ref: The "s" Command-Footnote-127470
+Node: Common Commands27542
+Node: Other Commands30567
+Ref: insert command33681
+Ref: Other Commands-Footnote-139581
+Node: Programming Commands39653
+Node: Extended Commands40565
+Node: Multiple commands syntax44457
+Node: sed addresses48774
+Node: Addresses overview49203
+Node: Numeric Addresses50979
+Node: Regexp Addresses52330
+Ref: Regexp Addresses-Footnote-156282
+Node: Range Addresses56422
+Node: sed regular expressions58902
+Node: Regular Expressions Overview59751
+Node: BRE vs ERE61258
+Node: BRE syntax62949
+Node: ERE syntax69338
+Node: Character Classes and Bracket Expressions70810
+Node: regexp extensions75648
+Node: Back-references and Subexpressions78036
+Node: Escapes80440
+Ref: Escapes-Footnote-183457
+Node: Locale Considerations83648
+Ref: Locale Considerations-Footnote-188271
+Node: advanced sed88443
+Node: Execution Cycle88802
+Ref: Execution Cycle-Footnote-189997
+Node: Hold and Pattern Buffers90298
+Node: Multiline techniques90486
+Node: Branching and flow control93700
+Node: Examples101749
+Node: Joining lines102949
+Node: Centering lines104736
+Node: Increment a number105655
+Ref: Increment a number-Footnote-1107132
+Node: Rename files to lower case107252
+Node: Print bash environment110025
+Node: Reverse chars of lines110780
+Ref: Reverse chars of lines-Footnote-1111811
+Node: Text search across multiple lines112028
+Node: Line length adjustment115253
+Node: tac116990
+Node: cat -n117757
+Node: cat -b119579
+Node: wc -c120328
+Ref: wc -c-Footnote-1122238
+Node: wc -w122307
+Node: wc -l123775
+Node: head124020
+Node: tail124351
+Node: uniq126032
+Node: uniq -d126819
+Node: uniq -u127530
+Node: cat -s128239
+Node: Limitations130086
+Node: Other Resources130927
+Node: Reporting Bugs131828
+Ref: N_command_last_line132991
+Ref: Reporting Bugs-Footnote-1139136
+Node: GNU Free Documentation License139207
+Node: Concept Index164362
+Node: Command and Option Index191640
 
 End Tag Table
