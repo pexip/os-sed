@@ -1,3 +1,13 @@
+sed (4.9-2) unstable; urgency=medium
+
+  [ Gioele Barabucci ]
+  * Support <nodoc> build profile.  closes: #1051792.
+
+  [ Clint Adams ]
+  * Patch from Helmut Grohne to move sed to /usr/bin.  closes: #1059821.
+
+ -- Clint Adams <clint@debian.org>  Mon, 01 Jan 2024 18:37:14 -0500
+
 sed (4.9-1) unstable; urgency=medium
 
   * New upstream version.
