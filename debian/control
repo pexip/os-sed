@@ -4,7 +4,7 @@ Priority: required
 Maintainer: Pexip AS <packaging@pexip.com>
 XSBC-Pexip-Original-Maintainer: Clint Adams <clint@debian.org>
 Standards-Version: 4.6.2
-Build-Depends: texinfo, gettext, libselinux-dev [linux-any], debhelper-compat (= 13), libacl1-dev
+Build-Depends: texinfo <!nodoc>, gettext, libselinux-dev [linux-any], debhelper-compat (= 13), libacl1-dev
 Rules-Requires-Root: no
 Vcs-Git: https://salsa.debian.org/debian/sed.git
 Vcs-Browser: https://salsa.debian.org/debian/sed
