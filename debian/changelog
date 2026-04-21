@@ -1,3 +1,11 @@
+sed (4.9-2+deb13u1) trixie; urgency=medium
+
+  * Non-maintainer upload.
+  * sed: -i --follow-symlinks: fix TOCTOU race (CVE-2026-5958)
+    (Closes: #1134495)
+
+ -- Salvatore Bonaccorso <carnil@debian.org>  Tue, 21 Apr 2026 09:47:45 +0200
+
 sed (4.9-2) unstable; urgency=medium
 
   [ Gioele Barabucci ]
